@@ -9,9 +9,9 @@ services:
       MINIO_SKIP_CLIENT: "yes"
     restart: always
     volumes:
-        - type: volume
-        source: data
-        target: /bitnami/minio/data
+      type: volume
+      source: data
+      target: /bitnami/minio/data
 	  ports:
      	- '9000:9000'
       - '9001:9001'
