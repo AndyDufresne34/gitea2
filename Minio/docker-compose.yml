@@ -1,25 +1,26 @@
-version: "3.8"
+version: '3.8'
 services:
   minio:
-    image: "registry/minio:2024.4.18"
-    hostname: "koe-dev01.koe.local"
+    image: minio/minio:latest
+    container_name: minio
     environment:
-      MINIO_ROOT_USER: "admin"
-      MINIO_ROOT_PASSWORD: "super-secret-password"
-      MINIO_SKIP_CLIENT: "yes"
-    restart: always
+      MINIO_ROOT_USER: "minioadmin"
+      MINIO_ROOT_PASSWORD: "minioadmin"
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"
+      - "9001:9001"
     volumes:
-      data:bitnami/minio/data
-	  ports:
-     	- '9000:9000'
-      - '9001:9001'
+      - data:/data
+    restart: always
+
   angie:
-	  image: registry/angie:latest
-	  ports:
-      -'80:80'
-    restart:always
-    volumes: 
-      - ./default.conf:/etc/angie/http.d/default.conf
- 
-volumes:
-  data:
+    image: angie:latest
+    container_name: angie
+    depends_on:
+      - minio
+    ports:
+      - "80:80"
+    volumes:
+      - ./default.conf:/etc/angie/default.conf:ro
+    restart: always
