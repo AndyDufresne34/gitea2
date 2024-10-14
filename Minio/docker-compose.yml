@@ -1,9 +1,9 @@
 version: '3.8'
 
 services:
-  angie:
+  nginx:
     image: nginx:latest
-    container_name: angie
+    container_name: nginx
     volumes:
       - ./default.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
@@ -15,7 +15,7 @@ services:
     environment:
       MINIO_ACCESS_KEY: "minioadmin"
       MINIO_SECRET_KEY: "minioadmin123"
-      MINIO_BROWSER_REDIRECT_URL: "http://example/minio/ui"  # Указываем URL для редиректа на консоль
+      MINIO_BROWSER_REDIRECT_URL: "http://dpc.tax.nalog.ru/minio/ui"  # Указываем URL для редиректа на консоль
     volumes:
       - data:/data
     ports:
