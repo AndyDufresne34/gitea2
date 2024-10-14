@@ -1,26 +1,26 @@
 version: '3.8'
+
 services:
+  angie:
+    image: nginx:latest
+    container_name: angie
+    volumes:
+      - ./default.conf:/etc/nginx/conf.d/default.conf:ro
+    ports:
+      - "80:80"
+
   minio:
-    image: minio/minio:latest
+    image: minio/minio
     container_name: minio
     environment:
-      MINIO_ROOT_USER: "minioadmin"
-      MINIO_ROOT_PASSWORD: "minioadmin"
-    command: server /data --console-address ":9001"
+      MINIO_ACCESS_KEY: "minioadmin"
+      MINIO_SECRET_KEY: "minioadmin123"
+      MINIO_BROWSER_REDIRECT_URL: "http://example/minio/ui"  # Указываем URL для редиректа на консоль
+    volumes:
+      - data:/data
     ports:
       - "9000:9000"
       - "9001:9001"
-    volumes:
-      - data:/data
-    restart: always
-
-  angie:
-    image: angie:latest
-    container_name: angie
-    depends_on:
-      - minio
-    ports:
-      - "80:80"
-    volumes:
-      - ./default.conf:/etc/angie/default.conf:ro
-    restart: always
+    command: server /data --console-address ":9001"
+volumes:
+ data:
