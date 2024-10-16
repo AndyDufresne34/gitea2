@@ -22,5 +22,17 @@ services:
       - "9000:9000"
       - "9001:9001"
     command: server /data --console-address ":9001"
+
+  gitea:
+    image: gitea/gitea:1.22.3-rootless
+    restart: always
+    volumes:
+      - ./data:/var/lib/gitea
+      - ./config:/etc/gitea
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - "3000:3000"
+      - "2222:2222"
 volumes:
  data:
