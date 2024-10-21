@@ -5,7 +5,7 @@ services:
     privileged: true
     restart: always
     environment:
-      CATTLE_SYSTEM_DEFAULT_REGISTRY: "localhost:5000/sviv-docker"
+      CATTLE_SYSTEM_DEFAULT_REGISTRY: "10.0.2.15:5000/sviv-docker"
     ports:
       - "8080:80"
       - "8443:443"
@@ -25,6 +25,9 @@ services:
       - type: volume
         source: rancher
         target: /var/lib/rancher
+      - $PWD/certs/domain.crt:/etc/rancher/ssl/cert.pem \
+      - $PWD/certs/domain.key:/etc/rancher/ssl/key.pem \
+#      - $PWD/certs:/etc/rancher/ssl/cacerts.pem \
 
 volumes:
   cni:
